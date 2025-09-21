@@ -1,13 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React, { useState } from 'react';
+import MobileFrame from '@/components/MobileFrame';
+import BottomNav from '@/components/BottomNav';
+import HomeScreen from '@/screens/HomeScreen';
+import VitalsScreen from '@/screens/VitalsScreen';
+import MedsScreen from '@/screens/MedsScreen';
+import MentalScreen from '@/screens/MentalScreen';
+import MonitorScreen from '@/screens/MonitorScreen';
+import HealthScreen from '@/screens/HealthScreen';
+import AlertsScreen from '@/screens/AlertsScreen';
 
 const Index = () => {
+  const [activeScreen, setActiveScreen] = useState('home');
+
+  const renderScreen = () => {
+    switch (activeScreen) {
+      case 'home': return <HomeScreen />;
+      case 'vitals': return <VitalsScreen />;
+      case 'meds': return <MedsScreen />;
+      case 'mental': return <MentalScreen />;
+      case 'monitor': return <MonitorScreen />;
+      case 'health': return <HealthScreen />;
+      case 'alerts': return <AlertsScreen />;
+      default: return <HomeScreen />;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <MobileFrame>
+      <div className="relative h-full bg-background">
+        {renderScreen()}
+        <BottomNav activeScreen={activeScreen} onNavigate={setActiveScreen} />
       </div>
-    </div>
+    </MobileFrame>
   );
 };
 

@@ -1,20 +1,34 @@
 import React, { useState } from 'react';
-import { Video, Calendar, Phone, Clock, User, Star, ChevronRight, Sparkles } from 'lucide-react';
+import { Video, Calendar, Phone, Clock, User, Star, ChevronRight, Sparkles, CheckCircle } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
 
 const HealthScreen: React.FC = () => {
+  const { toast } = useToast();
   const [showScheduler, setShowScheduler] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const [selectedDoctor, setSelectedDoctor] = useState('');
+  const [appointments, setAppointments] = useState([
+    {
+      doctor: 'Dr. Emily Chen',
+      specialty: 'Cardiologist',
+      date: 'Dec 28, 2035',
+      time: '14:30',
+      type: 'Holographic',
+      instructions: 'Bring recent ECG results'
+    }
+  ]);
 
-  const upcomingAppointment = {
-    doctor: 'Dr. Emily Chen',
-    specialty: 'Cardiologist',
-    date: 'Dec 28, 2035',
-    time: '14:30',
-    type: 'Holographic',
-  };
+  const doctors = [
+    { name: 'Dr. Emily Chen', specialty: 'Cardiologist' },
+    { name: 'Dr. Michael Ross', specialty: 'Neurologist' },
+    { name: 'Dr. Sarah Johnson', specialty: 'General Practitioner' },
+    { name: 'Dr. David Lee', specialty: 'Endocrinologist' },
+    { name: 'Dr. Lisa Wang', specialty: 'Psychiatrist' }
+  ];
 
-  const totalAppointments = 127;
+  const upcomingAppointment = appointments[0];
+  const totalAppointments = 127 + appointments.length;
 
   return (
     <div className="h-full flex flex-col p-4 pb-24 overflow-y-auto custom-scrollbar">
@@ -25,33 +39,42 @@ const HealthScreen: React.FC = () => {
       </div>
 
       {/* Next Appointment */}
-      <div className="glass rounded-xl p-4 border border-neon-cyan/30 mb-4 neon-glow-cyan">
-        <div className="flex items-center gap-2 mb-3">
-          <Calendar className="w-4 h-4 text-neon-cyan animate-pulse-glow" />
-          <span className="text-sm font-semibold text-foreground">Next Appointment</span>
+      {upcomingAppointment && (
+        <div className="glass rounded-xl p-4 border border-neon-cyan/30 mb-4 neon-glow-cyan">
+          <div className="flex items-center gap-2 mb-3">
+            <Calendar className="w-4 h-4 text-neon-cyan animate-pulse-glow" />
+            <span className="text-sm font-semibold text-foreground">Next Appointment</span>
+          </div>
+          
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-12 h-12 rounded-full bg-gradient-neon flex items-center justify-center">
+              <User className="w-6 h-6 text-background" />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-foreground">{upcomingAppointment.doctor}</p>
+              <p className="text-xs text-muted-foreground">{upcomingAppointment.specialty}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-xs font-semibold text-neon-cyan">{upcomingAppointment.date}</p>
+              <p className="text-xs text-muted-foreground">{upcomingAppointment.time}</p>
+            </div>
+          </div>
+          
+          {upcomingAppointment.instructions && (
+            <div className="mb-3 p-2 rounded-lg bg-muted/20">
+              <p className="text-xs text-muted-foreground">Instructions:</p>
+              <p className="text-xs text-foreground">{upcomingAppointment.instructions}</p>
+            </div>
+          )}
+          
+          <button className="w-full py-2 rounded-xl bg-gradient-neon text-background font-semibold text-sm animate-pulse-glow holographic">
+            <div className="flex items-center justify-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              Join Holographic Session
+            </div>
+          </button>
         </div>
-        
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-12 h-12 rounded-full bg-gradient-neon flex items-center justify-center">
-            <User className="w-6 h-6 text-background" />
-          </div>
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-foreground">{upcomingAppointment.doctor}</p>
-            <p className="text-xs text-muted-foreground">{upcomingAppointment.specialty}</p>
-          </div>
-          <div className="text-right">
-            <p className="text-xs font-semibold text-neon-cyan">{upcomingAppointment.date}</p>
-            <p className="text-xs text-muted-foreground">{upcomingAppointment.time}</p>
-          </div>
-        </div>
-        
-        <button className="w-full py-2 rounded-xl bg-gradient-neon text-background font-semibold text-sm animate-pulse-glow holographic">
-          <div className="flex items-center justify-center gap-2">
-            <Sparkles className="w-4 h-4" />
-            Join Holographic Session
-          </div>
-        </button>
-      </div>
+      )}
 
       {/* Quick Actions */}
       <div className="grid grid-cols-2 gap-3 mb-4">
@@ -77,7 +100,12 @@ const HealthScreen: React.FC = () => {
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-semibold text-neon-purple">Schedule Appointment</span>
             <button 
-              onClick={() => setShowScheduler(false)}
+              onClick={() => {
+                setShowScheduler(false);
+                setSelectedDate('');
+                setSelectedTime('');
+                setSelectedDoctor('');
+              }}
               className="text-xs text-muted-foreground"
             >
               Cancel
@@ -86,7 +114,24 @@ const HealthScreen: React.FC = () => {
           
           <div className="space-y-3">
             <div>
-              <label className="text-xs text-muted-foreground mb-1 block">Select Date</label>
+              <label className="text-xs text-muted-foreground mb-1 block">Select Doctor</label>
+              <select
+                value={selectedDoctor}
+                onChange={(e) => setSelectedDoctor(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-muted/30 border border-border text-xs text-foreground"
+                required
+              >
+                <option value="">Choose doctor</option>
+                {doctors.map((doc) => (
+                  <option key={doc.name} value={doc.name}>
+                    {doc.name} - {doc.specialty}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Select Date (Year 2035)</label>
               <input
                 type="date"
                 value={selectedDate}
@@ -94,6 +139,7 @@ const HealthScreen: React.FC = () => {
                 min="2035-01-01"
                 max="2035-12-31"
                 className="w-full px-3 py-2 rounded-lg bg-muted/30 border border-border text-xs text-foreground"
+                required
               />
             </div>
             
@@ -103,6 +149,7 @@ const HealthScreen: React.FC = () => {
                 value={selectedTime}
                 onChange={(e) => setSelectedTime(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg bg-muted/30 border border-border text-xs text-foreground"
+                required
               >
                 <option value="">Choose time</option>
                 <option value="09:00">09:00 AM</option>
@@ -116,10 +163,45 @@ const HealthScreen: React.FC = () => {
             
             <button 
               onClick={() => {
-                setShowScheduler(false);
-                // Show confirmation
+                if (selectedDoctor && selectedDate && selectedTime) {
+                  const doctorInfo = doctors.find(d => d.name === selectedDoctor);
+                  const newAppointment = {
+                    doctor: selectedDoctor,
+                    specialty: doctorInfo?.specialty || '',
+                    date: new Date(selectedDate).toLocaleDateString('en-US', { 
+                      month: 'short', 
+                      day: 'numeric', 
+                      year: 'numeric' 
+                    }),
+                    time: selectedTime,
+                    type: 'Holographic',
+                    instructions: 'Please prepare any relevant medical history'
+                  };
+                  
+                  setAppointments([newAppointment, ...appointments]);
+                  setShowScheduler(false);
+                  setSelectedDate('');
+                  setSelectedTime('');
+                  setSelectedDoctor('');
+                  
+                  toast({
+                    title: "Appointment Scheduled",
+                    description: (
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-neon-green" />
+                        <span>Your appointment is scheduled with {selectedDoctor}</span>
+                      </div>
+                    ),
+                  });
+                } else {
+                  toast({
+                    title: "Missing Information",
+                    description: "Please select doctor, date, and time",
+                    variant: "destructive"
+                  });
+                }
               }}
-              className="w-full py-2 rounded-lg bg-neon-purple/20 text-neon-purple font-semibold text-xs"
+              className="w-full py-2 rounded-lg bg-neon-purple/20 text-neon-purple font-semibold text-xs hover:bg-neon-purple/30 transition-colors"
             >
               Confirm Booking
             </button>

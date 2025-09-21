@@ -1,34 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Wifi, Battery, Brain, Calendar, User } from 'lucide-react';
+import LiveVitals from '../components/LiveVitals';
 
 const HomeScreen: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showAppointment, setShowAppointment] = useState(false);
-  const [heartRate, setHeartRate] = useState(72);
-  const [bloodPressure, setBloodPressure] = useState({ sys: 120, dia: 80 });
-  const [glucose, setGlucose] = useState(95);
-  const [o2Sat, setO2Sat] = useState(98);
-
-  // Fluctuating vitals animation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHeartRate(prev => Math.min(85, Math.max(68, prev + (Math.random() - 0.5) * 3)));
-      setBloodPressure(prev => ({
-        sys: Math.min(125, Math.max(115, prev.sys + (Math.random() - 0.5) * 2)),
-        dia: Math.min(85, Math.max(75, prev.dia + (Math.random() - 0.5) * 2))
-      }));
-      setGlucose(prev => Math.min(100, Math.max(90, prev + (Math.random() - 0.5) * 2)));
-      setO2Sat(prev => Math.min(99, Math.max(96, prev + (Math.random() - 0.5) * 1)));
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="h-full flex flex-col overflow-y-auto custom-scrollbar">
-      {/* Header */}
-      <div className="px-4 pt-4 pb-2 text-center">
-        <h1 className="text-xl font-bold bg-gradient-neon bg-clip-text text-transparent animate-pulse-glow">
+      {/* Header with adjusted spacing */}
+      <div className="px-4 pt-6 pb-4 text-center">
+        <h1 className="text-xl font-bold bg-gradient-neon bg-clip-text text-transparent animate-pulse-glow mb-1">
           HEALTH NEXUS 2035
         </h1>
         <p className="text-xs text-muted-foreground">AI-Powered Health Companion</p>
@@ -151,40 +133,8 @@ const HomeScreen: React.FC = () => {
         )}
       </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="glass rounded-xl p-3 border border-neon-pink/20">
-            <p className="text-xs text-muted-foreground mb-1">Heart Rate</p>
-            <p className="text-xl font-bold text-neon-pink animate-pulse">
-              {Math.round(heartRate)} BPM
-            </p>
-            <p className="text-xs text-neon-green mt-1">↓ 3% from avg</p>
-          </div>
-          
-          <div className="glass rounded-xl p-3 border border-neon-cyan/20">
-            <p className="text-xs text-muted-foreground mb-1">Blood Pressure</p>
-            <p className="text-xl font-bold text-neon-cyan animate-pulse">
-              {Math.round(bloodPressure.sys)}/{Math.round(bloodPressure.dia)}
-            </p>
-            <p className="text-xs text-neon-green mt-1">Optimal</p>
-          </div>
-          
-          <div className="glass rounded-xl p-3 border border-neon-purple/20">
-            <p className="text-xs text-muted-foreground mb-1">Glucose</p>
-            <p className="text-xl font-bold text-neon-purple animate-pulse">
-              {Math.round(glucose)} mg/dL
-            </p>
-            <p className="text-xs text-neon-green mt-1">Normal</p>
-          </div>
-          
-          <div className="glass rounded-xl p-3 border border-neon-green/20">
-            <p className="text-xs text-muted-foreground mb-1">O₂ Saturation</p>
-            <p className="text-xl font-bold text-neon-green animate-pulse">
-              {Math.round(o2Sat)}%
-            </p>
-            <p className="text-xs text-neon-green mt-1">Excellent</p>
-          </div>
-        </div>
+        {/* Live Vitals with Animated Graphs */}
+        <LiveVitals />
 
         {/* AI Insights */}
         <div className="glass rounded-xl p-3 border border-neon-blue/20 holographic">

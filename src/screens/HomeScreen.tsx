@@ -17,48 +17,7 @@ const HomeScreen: React.FC = () => {
       </div>
 
       <div className="px-4 pb-24">
-        {/* Upcoming Appointment Card */}
-        {!showAppointment ? (
-          <button
-            onClick={() => setShowAppointment(true)}
-            className="w-full glass rounded-xl p-3 mb-4 border border-neon-green/30 text-left animate-pulse-glow"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-neon-green" />
-                <div>
-                  <p className="text-xs font-semibold text-foreground">Scheduled Appointment</p>
-                  <p className="text-xs text-muted-foreground">Dec 28, 2035 • 14:30</p>
-                </div>
-              </div>
-              <ChevronDown className="w-4 h-4 text-neon-green" />
-            </div>
-          </button>
-        ) : (
-          <div className="glass rounded-xl p-3 mb-4 border border-neon-green/30 neon-glow-green">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-neon-green" />
-                <span className="text-xs font-semibold text-foreground">Appointment Details</span>
-              </div>
-              <button onClick={() => setShowAppointment(false)}>
-                <ChevronUp className="w-4 h-4 text-neon-green" />
-              </button>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <User className="w-3 h-3 text-neon-cyan" />
-                <p className="text-xs"><span className="text-muted-foreground">Doctor:</span> <span className="text-foreground font-semibold">Dr. Emily Chen</span></p>
-              </div>
-              <p className="text-xs"><span className="text-muted-foreground">Specialty:</span> <span className="text-foreground">Cardiologist</span></p>
-              <p className="text-xs"><span className="text-muted-foreground">Date:</span> <span className="text-foreground">December 28, 2035</span></p>
-              <p className="text-xs"><span className="text-muted-foreground">Time:</span> <span className="text-foreground">14:30 (2:30 PM)</span></p>
-              <p className="text-xs"><span className="text-muted-foreground">Type:</span> <span className="text-neon-cyan">Holographic Consultation</span></p>
-            </div>
-          </div>
-        )}
-
-        {/* Patient Card */}
+      {/* Patient Card */}
         <div className="glass rounded-2xl p-4 mb-4 border border-neon-cyan/30 neon-glow-cyan">
         <div className="flex items-center justify-between mb-3">
           <div>

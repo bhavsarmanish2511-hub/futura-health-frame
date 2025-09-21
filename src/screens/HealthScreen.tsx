@@ -91,6 +91,8 @@ const HealthScreen: React.FC = () => {
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
+                min="2035-01-01"
+                max="2035-12-31"
                 className="w-full px-3 py-2 rounded-lg bg-muted/30 border border-border text-xs text-foreground"
               />
             </div>

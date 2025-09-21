@@ -111,18 +111,38 @@ const HealthScreen: React.FC = () => {
 
         {/* Recent Appointments */}
         {appointments.length > 0 && (
-          <div className="glass rounded-xl p-4 border border-border">
-            <h2 className="text-sm font-semibold text-foreground mb-3">Your Appointments</h2>
-            <div className="space-y-2">
-              {appointments.slice(-3).reverse().map((apt) => (
-                <div key={apt.id} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{apt.doctor}</p>
+          <div className="glass rounded-xl p-4 border border-border backdrop-blur-sm">
+            <h2 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-neon-cyan" />
+              Your Booked Appointments
+            </h2>
+            <div className="space-y-3">
+              {appointments.slice(-5).reverse().map((apt) => (
+                <div key={apt.id} className="p-3 rounded-lg bg-background/30 backdrop-blur border border-neon-cyan/20 hover:border-neon-cyan/40 transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4 text-neon-purple" />
+                      <p className="text-sm font-semibold text-foreground">{apt.doctor}</p>
+                    </div>
+                    <CheckCircle className="w-4 h-4 text-neon-green" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-3 h-3 text-neon-cyan" />
+                      <span className="text-muted-foreground">
+                        {format(apt.date, 'MMM d, yyyy')}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-neon-cyan" />
+                      <span className="text-muted-foreground">{apt.time}</span>
+                    </div>
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-border/50">
                     <p className="text-xs text-muted-foreground">
-                      {format(apt.date, 'MMM d, yyyy')} • {apt.time}
+                      <span className="text-neon-purple">Instructions:</span> Join 5 min early for {apt.type}
                     </p>
                   </div>
-                  <CheckCircle className="w-4 h-4 text-neon-green" />
                 </div>
               ))}
             </div>
@@ -132,15 +152,15 @@ const HealthScreen: React.FC = () => {
 
       {/* Schedule Appointment Modal - Inside Mobile Frame */}
       {showScheduler && (
-        <div className="absolute inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass rounded-2xl p-4 w-full max-w-sm border border-neon-cyan/30 neon-glow-cyan max-h-[80vh] overflow-y-auto">
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="glass rounded-2xl p-4 w-full max-w-sm border border-neon-cyan/30 neon-glow-cyan max-h-[80vh] overflow-y-auto backdrop-blur-xl animate-scale-in">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-foreground">Schedule Appointment</h3>
               <button 
                 onClick={() => setShowScheduler(false)}
-                className="p-1 rounded-lg hover:bg-muted/20"
+                className="p-2 rounded-xl bg-neon-red/20 hover:bg-neon-red/30 transition-colors border border-neon-red/30"
               >
-                <X className="w-5 h-5 text-muted-foreground" />
+                <X className="w-6 h-6 text-neon-red" />
               </button>
             </div>
 
@@ -150,7 +170,7 @@ const HealthScreen: React.FC = () => {
               <select 
                 value={selectedDoctor}
                 onChange={(e) => setSelectedDoctor(e.target.value)}
-                className="w-full p-3 rounded-lg bg-muted/20 border border-border text-foreground focus:border-neon-cyan focus:outline-none"
+                className="w-full p-3 rounded-lg bg-background/50 backdrop-blur border border-border text-foreground focus:border-neon-cyan focus:outline-none transition-colors"
               >
                 <option value="">Choose a doctor</option>
                 {doctors.map(doc => (
@@ -164,7 +184,7 @@ const HealthScreen: React.FC = () => {
             {/* Date Selection */}
             <div className="mb-4">
               <label className="text-sm font-medium text-foreground mb-2 block">Select Date</label>
-              <div className="rounded-lg bg-muted/20 border border-border p-2">
+              <div className="rounded-lg bg-background/50 backdrop-blur border border-border p-2">
                 <CalendarComponent
                   mode="single"
                   selected={selectedDate}
@@ -190,8 +210,8 @@ const HealthScreen: React.FC = () => {
                     onClick={() => setSelectedTime(time)}
                     className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${
                       selectedTime === time
-                        ? 'bg-gradient-health text-background'
-                        : 'bg-muted/20 text-foreground hover:bg-muted/30'
+                        ? 'bg-gradient-health text-background neon-glow-green'
+                        : 'bg-background/50 backdrop-blur text-foreground hover:bg-muted/30 border border-border'
                     }`}
                   >
                     {time}
@@ -204,7 +224,7 @@ const HealthScreen: React.FC = () => {
             <button
               onClick={handleScheduleAppointment}
               disabled={!selectedDoctor || !selectedDate || !selectedTime}
-              className="w-full py-3 rounded-lg bg-gradient-health text-background font-semibold disabled:opacity-50 disabled:cursor-not-allowed holographic-btn"
+              className="w-full py-3 rounded-lg bg-gradient-health text-background font-semibold disabled:opacity-50 disabled:cursor-not-allowed holographic-btn transition-all"
             >
               Confirm Appointment
             </button>
@@ -214,61 +234,67 @@ const HealthScreen: React.FC = () => {
 
       {/* Confirmation Popup - Inside Mobile Frame */}
       {showConfirmation && latestAppointment && (
-        <div className="absolute inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass rounded-2xl p-6 w-full max-w-sm border border-neon-green/30 neon-glow-green">
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="glass rounded-2xl p-6 w-full max-w-sm border border-neon-green/30 neon-glow-green backdrop-blur-xl animate-scale-in">
             <div className="flex items-center justify-between mb-4">
-              <CheckCircle className="w-8 h-8 text-neon-green animate-pulse-glow" />
+              <CheckCircle className="w-10 h-10 text-neon-green animate-pulse-glow" />
               <button 
                 onClick={() => setShowConfirmation(false)}
-                className="p-1 rounded-lg hover:bg-muted/20"
+                className="p-3 rounded-xl bg-neon-red/20 hover:bg-neon-red/30 transition-colors border border-neon-red/30 hover-scale"
               >
-                <X className="w-5 h-5 text-muted-foreground" />
+                <X className="w-7 h-7 text-neon-red" />
               </button>
             </div>
             
-            <h3 className="text-lg font-semibold text-foreground mb-2">
+            <h3 className="text-xl font-bold text-foreground mb-2">
               Appointment Confirmed!
             </h3>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-neon-green mb-4 font-medium">
               Your appointment is scheduled with {latestAppointment.doctor} successfully
             </p>
             
-            <div className="space-y-2 p-3 rounded-lg bg-muted/10 border border-border">
-              <div className="flex items-center gap-2">
-                <User className="w-4 h-4 text-neon-cyan" />
-                <p className="text-sm">
-                  <span className="text-muted-foreground">Doctor:</span>{' '}
-                  <span className="text-foreground font-medium">{latestAppointment.doctor}</span>
-                </p>
+            <div className="space-y-3 p-4 rounded-xl bg-background/30 backdrop-blur border border-border">
+              <div className="flex items-center gap-3">
+                <User className="w-5 h-5 text-neon-cyan" />
+                <div>
+                  <p className="text-xs text-muted-foreground">Doctor</p>
+                  <p className="text-sm text-foreground font-semibold">{latestAppointment.doctor}</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-neon-cyan" />
-                <p className="text-sm">
-                  <span className="text-muted-foreground">Date:</span>{' '}
-                  <span className="text-foreground font-medium">
+              <div className="flex items-center gap-3">
+                <Calendar className="w-5 h-5 text-neon-cyan" />
+                <div>
+                  <p className="text-xs text-muted-foreground">Date</p>
+                  <p className="text-sm text-foreground font-semibold">
                     {format(latestAppointment.date, 'MMMM d, yyyy')}
-                  </span>
-                </p>
+                  </p>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-neon-cyan" />
-                <p className="text-sm">
-                  <span className="text-muted-foreground">Time:</span>{' '}
-                  <span className="text-foreground font-medium">{latestAppointment.time}</span>
-                </p>
+              <div className="flex items-center gap-3">
+                <Clock className="w-5 h-5 text-neon-cyan" />
+                <div>
+                  <p className="text-xs text-muted-foreground">Time</p>
+                  <p className="text-sm text-foreground font-semibold">{latestAppointment.time}</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Video className="w-4 h-4 text-neon-cyan" />
-                <p className="text-sm">
-                  <span className="text-muted-foreground">Type:</span>{' '}
-                  <span className="text-neon-cyan font-medium">{latestAppointment.type}</span>
+              <div className="flex items-center gap-3">
+                <Video className="w-5 h-5 text-neon-cyan" />
+                <div>
+                  <p className="text-xs text-muted-foreground">Type</p>
+                  <p className="text-sm text-neon-cyan font-semibold">{latestAppointment.type}</p>
+                </div>
+              </div>
+              <div className="pt-2 border-t border-border">
+                <p className="text-xs text-muted-foreground mb-1">Instructions</p>
+                <p className="text-xs text-foreground">
+                  Please join 5 minutes early. Ensure stable internet connection for holographic consultation.
                 </p>
               </div>
             </div>
 
             <button
               onClick={() => setShowConfirmation(false)}
-              className="w-full mt-4 py-2 rounded-lg bg-gradient-health text-background font-semibold text-sm holographic-btn"
+              className="w-full mt-4 py-3 rounded-xl bg-gradient-health text-background font-bold text-sm holographic-btn hover-scale transition-all"
             >
               Done
             </button>

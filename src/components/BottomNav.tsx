@@ -25,8 +25,8 @@ interface BottomNavProps {
 
 const BottomNav: React.FC<BottomNavProps> = ({ activeScreen, onNavigate }) => {
   return (
-    <div className="absolute bottom-0 left-0 right-0 p-4">
-      <div className="glass rounded-2xl p-2 flex justify-around items-center">
+    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background/95 to-transparent">
+      <div className="glass rounded-2xl p-2 flex justify-around items-center backdrop-blur-xl bg-background/60">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeScreen === item.screen;

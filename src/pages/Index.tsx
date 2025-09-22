@@ -27,8 +27,10 @@ const Index = () => {
 
   return (
     <MobileFrame>
-      <div className="relative h-full bg-background">
-        {renderScreen()}
+      <div className="relative h-full bg-background flex flex-col">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden pb-20">
+          {renderScreen()}
+        </div>
         <BottomNav activeScreen={activeScreen} onNavigate={setActiveScreen} />
       </div>
     </MobileFrame>

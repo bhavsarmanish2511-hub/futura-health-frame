@@ -174,7 +174,7 @@
   /* Mobile Frame */
   .mobile-frame {
     width: 375px;
-    height: 812px;
+    height: 750px;
     position: relative;
     border-radius: 40px;
     padding: 10px;
@@ -192,6 +192,16 @@
     overflow: hidden;
     background: hsl(240, 33%, 3%);
     position: relative;
+  }
+  
+  /* Hide scrollbars within mobile frame */
+  .mobile-screen * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .mobile-screen *::-webkit-scrollbar {
+    display: none;
   }
   
   /* Holographic Effect */

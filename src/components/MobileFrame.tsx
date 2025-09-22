@@ -1,6 +1,5 @@
 import React from 'react';
 import StatusBar from './StatusBar';
-import darkBg from '@/assets/dark-tech-bg.jpg';
 
 interface MobileFrameProps {
   children: React.ReactNode;
@@ -8,15 +7,7 @@ interface MobileFrameProps {
 
 const MobileFrame: React.FC<MobileFrameProps> = ({ children }) => {
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center p-4"
-      style={{
-        backgroundImage: `url(${darkBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}
-    >
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="mobile-frame">
         <div className="mobile-screen">
           {/* Status bar */}

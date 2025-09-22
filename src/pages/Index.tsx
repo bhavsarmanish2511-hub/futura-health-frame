@@ -8,6 +8,7 @@ import MentalScreen from '@/screens/MentalScreen';
 import MonitorScreen from '@/screens/MonitorScreen';
 import HealthScreen from '@/screens/HealthScreen';
 import AlertsScreen from '@/screens/AlertsScreen';
+import darkBg from '@/assets/dark-tech-bg.jpg';
 
 const Index = () => {
   const [activeScreen, setActiveScreen] = useState('home');
@@ -27,8 +28,16 @@ const Index = () => {
 
   return (
     <MobileFrame>
-      <div className="relative h-full bg-background flex flex-col">
-        <div className="flex-1 overflow-y-auto overflow-x-hidden pb-20">
+      <div 
+        className="relative h-full bg-background flex flex-col"
+        style={{
+          backgroundImage: `url(${darkBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="flex-1 overflow-y-auto overflow-x-hidden pb-20 bg-background/80 backdrop-blur-sm">
           {renderScreen()}
         </div>
         <BottomNav activeScreen={activeScreen} onNavigate={setActiveScreen} />

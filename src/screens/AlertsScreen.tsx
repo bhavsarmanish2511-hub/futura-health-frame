@@ -30,7 +30,7 @@ const AlertsScreen: React.FC = () => {
     {
       id: 'd1',
       patientName: 'Bob',
-      date: '2025-09-22',
+      date: '2035-09-22',
       totalCharges: '$12,450.00',
       treatedFor: 'Cardiac Catheterization',
       provider: 'Dr. Michael Chen, MD - Cardiology',
@@ -41,23 +41,23 @@ const AlertsScreen: React.FC = () => {
     {
       id: 'd2',
       patientName: 'Bob',
-      date: '2025-08-15',
+      date: '2035-08-15',
       totalCharges: '$3,200.00',
       treatedFor: 'Hypertension Management',
       provider: 'Dr. Sarah Johnson, MD - Internal Medicine',
       insuranceCoverage: '$2,560.00',
-      amountDue: '$640.00',
+      amountDue: 'Settled',
       isRecent: false,
     },
     {
       id: 'd3',
       patientName: 'Bob',
-      date: '2025-06-10',
+      date: '2035-06-10',
       totalCharges: '$8,900.00',
       treatedFor: 'Diabetes Type 2 - Initial Diagnosis',
       provider: 'Dr. Robert Williams, MD - Endocrinology',
       insuranceCoverage: '$7,120.00',
-      amountDue: '$1,780.00',
+      amountDue: 'Settled',
       isRecent: false,
     },
   ];
@@ -190,8 +190,14 @@ const AlertsScreen: React.FC = () => {
                   
                   <div className="pt-2 border-t border-border">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-muted-foreground font-semibold">Amount Due:</span>
-                      <span className="text-sm text-destructive font-bold">{record.amountDue}</span>
+                      <span className="text-xs text-muted-foreground font-semibold">
+                        {record.isRecent ? 'Amount Due:' : 'Status:'}
+                      </span>
+                      <span className={`text-sm font-bold ${
+                        record.isRecent ? 'text-destructive' : 'text-neon-green'
+                      }`}>
+                        {record.amountDue}
+                      </span>
                     </div>
                   </div>
                 </div>

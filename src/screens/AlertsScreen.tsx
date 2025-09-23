@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, AlertTriangle, Info, CheckCircle, Clock, ChevronRight, Brain } from 'lucide-react';
+import { Bell, AlertTriangle, Info, CheckCircle, Clock, ChevronRight, Brain, FileText, DollarSign, Calendar, User, Shield } from 'lucide-react';
 
 interface Alert {
   id: string;
@@ -10,8 +10,57 @@ interface Alert {
   actionable: boolean;
 }
 
+interface DischargeRecord {
+  id: string;
+  patientName: string;
+  date: string;
+  totalCharges: string;
+  treatedFor: string;
+  provider: string;
+  insuranceCoverage: string;
+  amountDue: string;
+  isRecent: boolean;
+}
+
 const AlertsScreen: React.FC = () => {
   const [expandedAlert, setExpandedAlert] = useState<string | null>(null);
+  const [expandedDischarge, setExpandedDischarge] = useState<string | null>(null);
+
+  const dischargeRecords: DischargeRecord[] = [
+    {
+      id: 'd1',
+      patientName: 'Bob',
+      date: '2025-09-22',
+      totalCharges: '$12,450.00',
+      treatedFor: 'Cardiac Catheterization',
+      provider: 'Dr. Michael Chen, MD - Cardiology',
+      insuranceCoverage: '$10,380.00',
+      amountDue: '$2,070.00',
+      isRecent: true,
+    },
+    {
+      id: 'd2',
+      patientName: 'Bob',
+      date: '2025-08-15',
+      totalCharges: '$3,200.00',
+      treatedFor: 'Hypertension Management',
+      provider: 'Dr. Sarah Johnson, MD - Internal Medicine',
+      insuranceCoverage: '$2,560.00',
+      amountDue: '$640.00',
+      isRecent: false,
+    },
+    {
+      id: 'd3',
+      patientName: 'Bob',
+      date: '2025-06-10',
+      totalCharges: '$8,900.00',
+      treatedFor: 'Diabetes Type 2 - Initial Diagnosis',
+      provider: 'Dr. Robert Williams, MD - Endocrinology',
+      insuranceCoverage: '$7,120.00',
+      amountDue: '$1,780.00',
+      isRecent: false,
+    },
+  ];
 
   const alerts: Alert[] = [
     {
@@ -74,6 +123,82 @@ const AlertsScreen: React.FC = () => {
       <div className="mb-4">
         <h1 className="text-xl font-bold text-foreground mb-2">Alerts & AI Actions</h1>
         <p className="text-xs text-muted-foreground">Stay informed about your health</p>
+      </div>
+
+      {/* Discharge Details Section */}
+      <div className="glass rounded-xl p-3 border border-neon-purple/30 mb-4">
+        <div className="flex items-center gap-2 mb-3">
+          <FileText className="w-4 h-4 text-neon-purple animate-pulse" />
+          <span className="text-sm font-semibold text-foreground">Discharge Details</span>
+        </div>
+        
+        <div className="space-y-2">
+          {dischargeRecords.map((record) => (
+            <div
+              key={record.id}
+              className={`glass rounded-lg p-2.5 border transition-all cursor-pointer ${
+                record.isRecent 
+                  ? 'border-neon-green/30 bg-neon-green/10' 
+                  : 'border-border hover:border-neon-purple/30'
+              }`}
+              onClick={() => setExpandedDischarge(expandedDischarge === record.id ? null : record.id)}
+            >
+              <div className="flex items-start gap-2">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs font-semibold text-foreground">
+                      {record.patientName} - {record.date}
+                    </p>
+                    {record.isRecent && (
+                      <span className="px-1.5 py-0.5 rounded text-xs bg-neon-green/20 text-neon-green font-semibold">
+                        Latest
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">{record.treatedFor}</p>
+                </div>
+                <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${
+                  expandedDischarge === record.id ? 'rotate-90' : ''
+                }`} />
+              </div>
+
+              {expandedDischarge === record.id && (
+                <div className="mt-3 pt-3 border-t border-border space-y-2">
+                  <div className="flex items-center gap-2">
+                    <DollarSign className="w-3 h-3 text-neon-cyan" />
+                    <span className="text-xs text-muted-foreground">Total Charges:</span>
+                    <span className="text-xs text-foreground font-semibold">{record.totalCharges}</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <User className="w-3 h-3 text-neon-cyan" />
+                    <span className="text-xs text-muted-foreground">Provider:</span>
+                    <span className="text-xs text-foreground">{record.provider}</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-3 h-3 text-neon-cyan" />
+                    <span className="text-xs text-muted-foreground">Date:</span>
+                    <span className="text-xs text-foreground">{record.date}</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-neon-cyan" />
+                    <span className="text-xs text-muted-foreground">Insurance Coverage:</span>
+                    <span className="text-xs text-foreground">{record.insuranceCoverage}</span>
+                  </div>
+                  
+                  <div className="pt-2 border-t border-border">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground font-semibold">Amount Due:</span>
+                      <span className="text-sm text-destructive font-bold">{record.amountDue}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Alert Summary */}

@@ -51,13 +51,13 @@ const VitalsScreen: React.FC = () => {
       </div>
 
       {/* Heart Rate Chart */}
-      <div className="glass rounded-xl p-3 mb-3 border border-neon-pink/20">
+      <div className="glass rounded-xl p-3 mb-3 border border-neon-green/20">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <Heart className="w-4 h-4 text-neon-pink animate-pulse-glow" />
+            <Heart className="w-4 h-4 text-neon-green animate-pulse-glow" />
             <span className="text-sm font-semibold text-foreground">Heart Rate</span>
           </div>
-          <span className="text-lg font-bold text-neon-pink">72 BPM</span>
+          <span className="text-lg font-bold text-neon-green">72 BPM</span>
         </div>
         
         <div className="h-32">
@@ -65,8 +65,8 @@ const VitalsScreen: React.FC = () => {
             <AreaChart data={heartRateData}>
               <defs>
                 <linearGradient id="heartGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ff0080" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#ff0080" stopOpacity={0.1}/>
+                  <stop offset="5%" stopColor="#00ff00" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#00ff00" stopOpacity={0.1}/>
                 </linearGradient>
               </defs>
               <XAxis dataKey="time" hide />
@@ -74,14 +74,14 @@ const VitalsScreen: React.FC = () => {
               <Tooltip 
                 contentStyle={{ 
                   background: 'rgba(15, 15, 25, 0.9)', 
-                  border: '1px solid #ff0080',
+                  border: '1px solid #00ff00',
                   borderRadius: '8px'
                 }}
               />
               <Area 
                 type="monotone" 
                 dataKey="value" 
-                stroke="#ff0080" 
+                stroke="#00ff00" 
                 fillOpacity={1} 
                 fill="url(#heartGradient)" 
               />
@@ -91,13 +91,13 @@ const VitalsScreen: React.FC = () => {
       </div>
 
       {/* Blood Pressure Chart */}
-      <div className="glass rounded-xl p-3 mb-3 border border-neon-cyan/20">
+      <div className="glass rounded-xl p-3 mb-3 border border-neon-green/20">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <Droplet className="w-4 h-4 text-neon-cyan animate-pulse-glow" />
+            <Droplet className="w-4 h-4 text-neon-green animate-pulse-glow" />
             <span className="text-sm font-semibold text-foreground">Blood Pressure</span>
           </div>
-          <span className="text-lg font-bold text-neon-cyan">120/80</span>
+          <span className="text-lg font-bold text-neon-green">120/80</span>
         </div>
         
         <div className="h-32">
@@ -108,21 +108,21 @@ const VitalsScreen: React.FC = () => {
               <Tooltip 
                 contentStyle={{ 
                   background: 'rgba(15, 15, 25, 0.9)', 
-                  border: '1px solid #00ffff',
+                  border: '1px solid #00ff00',
                   borderRadius: '8px'
                 }}
               />
               <Line 
                 type="monotone" 
                 dataKey="systolic" 
-                stroke="#00ffff" 
+                stroke="#00ff00" 
                 strokeWidth={2}
                 dot={false}
               />
               <Line 
                 type="monotone" 
                 dataKey="diastolic" 
-                stroke="#00ffff" 
+                stroke="#00ff00" 
                 strokeWidth={2}
                 strokeOpacity={0.5}
                 dot={false}
@@ -143,12 +143,12 @@ const VitalsScreen: React.FC = () => {
           <p className="text-xs text-muted-foreground">Optimal</p>
         </div>
         
-        <div className="glass rounded-xl p-3 border border-neon-purple/20">
+        <div className="glass rounded-xl p-3 border border-neon-green/20">
           <div className="flex items-center gap-2 mb-1">
-            <Activity className="w-3 h-3 text-neon-purple" />
+            <Activity className="w-3 h-3 text-neon-green" />
             <span className="text-xs text-muted-foreground">Glucose</span>
           </div>
-          <p className="text-lg font-bold text-neon-purple">95 mg/dL</p>
+          <p className="text-lg font-bold text-neon-green">95 mg/dL</p>
           <p className="text-xs text-muted-foreground">Normal</p>
         </div>
       </div>

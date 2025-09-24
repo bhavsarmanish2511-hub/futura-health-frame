@@ -25,15 +25,15 @@ const HomeScreen: React.FC = () => {
             <p className="text-sm text-muted-foreground">Age 45 • ID: SC-2035-789</p>
           </div>
           <div className="relative">
-            <div className="w-16 h-16 rounded-full bg-gradient-health flex items-center justify-center animate-pulse-glow">
-              <span className="text-2xl font-bold text-background">92</span>
-            </div>
-            <Brain className="absolute -bottom-1 -right-1 w-5 h-5 text-neon-green animate-float" />
+            <Brain className="w-5 h-5 text-neon-green animate-float" />
           </div>
         </div>
         
         <div className="mb-3">
-          <p className="text-xs text-muted-foreground mb-1">AI Health Score</p>
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-xs text-muted-foreground">AI Health Score</p>
+            <span className="text-2xl font-bold text-neon-green">92</span>
+          </div>
           <div className="h-2 bg-muted/30 rounded-full overflow-hidden">
             <div className="h-full w-[92%] bg-gradient-health rounded-full animate-pulse-glow" />
           </div>

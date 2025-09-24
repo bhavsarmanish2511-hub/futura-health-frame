@@ -88,17 +88,17 @@ const LiveVitals: React.FC = () => {
   return (
     <div className="grid grid-cols-2 gap-3 mb-4">
       {/* Heart Rate */}
-      <div className="glass rounded-xl p-3 border border-neon-pink/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-neon-pink/5 to-transparent animate-pulse" />
+      <div className="glass rounded-xl p-3 border border-neon-green/20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-neon-green/5 to-transparent animate-pulse" />
         <div className="relative">
           <div className="flex items-center gap-2 mb-1">
-            <Heart className="w-3 h-3 text-neon-pink animate-pulse" />
+            <Heart className="w-3 h-3 text-neon-green animate-pulse" />
             <p className="text-xs text-muted-foreground">Heart Rate</p>
           </div>
-          <p className="text-xl font-bold text-neon-pink mb-1">
+          <p className="text-xl font-bold text-neon-green mb-1">
             {Math.round(heartRate.value)} BPM
           </p>
-          {renderMiniGraph(heartRate.history, 'hsl(var(--neon-pink))')}
+          {renderMiniGraph(heartRate.history, 'hsl(var(--neon-green))')}
           <p className="text-xs text-neon-green mt-1 flex items-center gap-1">
             <Activity className="w-3 h-3" />
             Good Health
@@ -107,17 +107,17 @@ const LiveVitals: React.FC = () => {
       </div>
       
       {/* Blood Pressure */}
-      <div className="glass rounded-xl p-3 border border-neon-cyan/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 to-transparent animate-pulse" />
+      <div className="glass rounded-xl p-3 border border-neon-green/20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-neon-green/5 to-transparent animate-pulse" />
         <div className="relative">
           <div className="flex items-center gap-2 mb-1">
-            <Droplet className="w-3 h-3 text-neon-cyan animate-pulse" />
+            <Droplet className="w-3 h-3 text-neon-green animate-pulse" />
             <p className="text-xs text-muted-foreground">Blood Pressure</p>
           </div>
-          <p className="text-xl font-bold text-neon-cyan mb-1">
+          <p className="text-xl font-bold text-neon-green mb-1">
             {Math.round(bloodPressure.sys)}/{Math.round(bloodPressure.dia)}
           </p>
-          {renderMiniGraph(bloodPressure.history, 'hsl(var(--neon-cyan))')}
+          {renderMiniGraph(bloodPressure.history, 'hsl(var(--neon-green))')}
           <p className="text-xs text-neon-green mt-1 flex items-center gap-1">
             <Activity className="w-3 h-3" />
             Optimal
@@ -126,17 +126,17 @@ const LiveVitals: React.FC = () => {
       </div>
       
       {/* Glucose */}
-      <div className="glass rounded-xl p-3 border border-neon-purple/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/5 to-transparent animate-pulse" />
+      <div className="glass rounded-xl p-3 border border-neon-green/20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-neon-green/5 to-transparent animate-pulse" />
         <div className="relative">
           <div className="flex items-center gap-2 mb-1">
-            <Zap className="w-3 h-3 text-neon-purple animate-pulse" />
+            <Zap className="w-3 h-3 text-neon-green animate-pulse" />
             <p className="text-xs text-muted-foreground">Glucose</p>
           </div>
-          <p className="text-xl font-bold text-neon-purple mb-1">
+          <p className="text-xl font-bold text-neon-green mb-1">
             {Math.round(glucose.value)} mg/dL
           </p>
-          {renderMiniGraph(glucose.history, 'hsl(var(--neon-purple))')}
+          {renderMiniGraph(glucose.history, 'hsl(var(--neon-green))')}
           <p className="text-xs text-neon-green mt-1 flex items-center gap-1">
             <Activity className="w-3 h-3" />
             Normal
